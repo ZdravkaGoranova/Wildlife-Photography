@@ -1,27 +1,35 @@
-<main>
-    <section class="container" id="shared-trips-page">
-        <header class="trip">
-            <h1>Welcome Sharetripers!</h1>
-            <p class="lead">Sharedtrip is the best way to road across the country.</p>
-            <p class="lead">Find yours Sharedtrip's buddies, when you share with us yours trip plans and let the
-                exploration begin!</p>
-        </header>
-        <div class="row text-center">
-            <!-- If there are shared trips in the database display each of them -->
-            {{#if trips}}
-            {{#each trips}}
-            {{>trip}}
-            {{/each}}
 
-            {{else}}
+        <main>
 
-            <!-- If there are no shared trips in the database -->
-            <div class="no-trips">
-                <img src="https://www.stagweb.co.uk/img/activities/big/sexyhitchhiker1.jpg" />
-                <p class="lead">Hitchhiker time...</p>
-            </div>
-            {{/if}}
+            <section id="catalog">
+                <h1>All posts</h1>
+                <div class="band">
 
-        </div>
-    </section>
-</main>
+                    <!-- If there are posts for wildlife in the database display each of them -->
+
+                    {{#if posts}}
+                    {{#each posts}}
+                    {{>post}}
+                    {{/each}}
+        
+                   
+        
+
+
+                   
+                    {{else}}
+
+                    <!-- If there are still no posts for wildlife in the database display: -->
+                   <div class="no-posts">
+                        <div class="no-posts-img">
+                       
+                            <img src="/static/img/animal.jpg" alt="image_nature_3">
+                        </div>
+                        <p class="no-offer">There are no posts yet...</p>
+                    </div>
+
+                    {{/if}}
+                </div>
+            </section>
+        </main>
+

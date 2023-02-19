@@ -1,64 +1,67 @@
 const mongoose = require('mongoose');
 
-
-const userShema = new mongoose.Schema({
-
-    firstName: {
+const bookSchema = new mongoose.Schema({
+    title: {
         type: String,
         // minLength: 10, 
         // match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Invalid URL'],
         required: [true, 'title is required!'],
 
     },
-    lastName: {
+    keyword: {
         type: String,
         required: [true, 'Password is required!'],
         //minLength: 3,
     },
-    email: {
+    location: {
         type: String,
         required: [true, 'title is required!'],
         // enum: {
         //     values: ['female', 'male'],
         //     message: 'Invalid gender',
         // },
-        
+        // required: true,
     },
-    password: {
+    creation: {
         type: String,
-        required: [true, 'title is required!'],
         // enum: {
         //     values: ['female', 'male'],
         //     message: 'Invalid gender',
         // },
-       
+        required: true,
     },
-    myPostsage: [{
+    image: {
+        type: String,
+        // enum: {
+        //     values: ['female', 'male'],
+        //     message: 'Invalid gender',
+        // },
+        required: true,
+    },
+    description: {
+        type: String,
+
+        required: true,
+    },
+    creator: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+    },
+
+    votesPpost : [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
     }]
-    
+    ,
+    ratingofPost: {
+        type: Number,
+        min: 0,
+    },
 });
 
 //userShema.virtual('confirmPassword').set;
 
-const User = mongoose.model('User', userShema);
 
-module.exports = User;
+const Post = mongoose.model('Post', bookSchema);
 
-
-
-  // }, {
-    //     virtuals: {
-    //         confirmPassword: {
-    //             set(value) {
-    //                 if (this.password !== value) {
-    //                     throw new mongoose.Error('Password missmatch!');
-    //                 }
-    //             }
-    //         }
-    //     }
-
-//});
-
-//userShema.virtual('confirmPassword').set;
+module.exports = Post;

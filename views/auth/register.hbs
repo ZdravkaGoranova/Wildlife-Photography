@@ -1,40 +1,40 @@
 
-    <main>
-        <section class="py-5" id="register-page">
-            <div class="container register-page">
-                <h1>Register</h1>
-                <div class="register">
-                    <form method="POST">
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email"
-                                value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password" name="password"
-                                value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="rePassword">Re-Password</label>
-                            <input type="password" class="form-control" id="rePassword" placeholder="Re-Password"
-                                name="rePassword" value="">
-                        </div>
-                        <label>Gender</label>
-                        <div class="gender">
-                            <input type="radio" id="female" name="female" value="">
-                            <label for="female">Female</label>
-                            <input type="radio" id="male" name="male" value="" >
-                            <label for="male">Male</label>
-                        </div>
-                        <div class="form-group">
-                            <p>Already have account? <a href="/login">Login Now!</a></p>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+        <main>
+
+            <section id="register-page">
+                <div class="signupSection">
+                    <div class="info">
+                        <h2>To discover and share knowledge about the environment in order to preserve and enrich life.</h2>
+                    </div>
+                    <form  method="POST" class="signupForm">
+                        <h2>Sign Up</h2>
+                        <ul class="noBullet">
+                            <li>
+                                <label for="first-name">First Name:</label>
+                                <input type="text" class="inputFields" id="first-name" name="firstName" value="" placeholder="Alex" />
+                            </li>
+                            <li>
+                                <label for="last-name">Last Name:</label>
+                                <input type="text" class="inputFields" id="last-name" name="lastName" value="" placeholder="Petkov" />
+                            </li>
+                            <li>
+                                <label for="email">Email:</label>
+                                <input type="text" class="inputFields" id="email" name="email" value="" placeholder="alex@gmail.com" />
+                            </li>
+                            <li>
+                                <label for="password">Password:</label>
+                                <input type="password" class="inputFields" id="password" name="password" placeholder="******" />
+                            </li>
+                            <li>
+                                <label for="repeat-password">Repeat-Password:</label>
+                                <input type="password" class="inputFields" id="repeat-password" name="rePassword" placeholder="******" />
+                            </li>
+                            <li id="center-btn">
+                                <button id="join-btn">Join</button>
+                            </li>
+                        </ul>
                     </form>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
 
-   
+        </main>

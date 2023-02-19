@@ -20,17 +20,17 @@ router.use(authController);//router.use('/auth',authController);
 router.get('/create', isAuth, cryptoController.getCreateCrypto);//
 router.post('/create', isAuth, cryptoController.postCreateCrypto);
 
-router.get('/sharedTrips/:tripId/details', cryptoController.getDetails);// router.get('/cubes/:cubeId/details', handleRequest(cubeControler.getDetails));//път към детайла
+router.get('/wildlifes/:tripId/details', cryptoController.getDetails);// router.get('/cubes/:cubeId/details', handleRequest(cubeControler.getDetails));//път към детайла
 
-//router.get('/sharedTrips/:tripId/wish', isAuth, cryptoController.getWish);
+//router.get('/wildlifes/:tripId/wish', isAuth, cryptoController.getWish);
 
-router.get('/sharedTrips/:tripId/join', isAuth, cryptoController.getJoin);
+router.get('/wildlifes/:tripId/join', isAuth, cryptoController.getJoin);
 router.get('/profile', isAuth, cryptoController.getProfile);
 
-router.get('/sharedTrips/:tripId/edit', isAuth, cryptoController.getEditCrypto);// router.get('/cubes/:cubeId/edit', isAuthenticated, handleRequest(cubeControler.getEditCube));
-router.post('/sharedTrips/:tripId/edit', isAuth, cryptoController.postEditCrypto);
+router.get('/wildlifes/:tripId/edit', isAuth, cryptoController.getEditCrypto);// router.get('/cubes/:cubeId/edit', isAuthenticated, handleRequest(cubeControler.getEditCube));
+router.post('/wildlifes/:tripId/edit', isAuth, cryptoController.postEditCrypto);
 
-router.get('/sharedTrips/:tripId/delete', isAuth, cryptoController.getDeleteCrypto);
+router.get('/wildlifes/:tripId/delete', isAuth, cryptoController.getDeleteCrypto);
 
 router.all('*', (req, res) => res.render('home/404'));
 //router.use('*', (req, res) => res.render('home/404'));

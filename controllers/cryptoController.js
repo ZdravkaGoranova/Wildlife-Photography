@@ -1,7 +1,7 @@
 
 const router = require('express').Router();
 
-const Trip = require('../models/Trip.js');
+const Post = require('../models/Post.js');
 const User = require('../models/User.js');
 const tripServices = require('../services/bookServices.js');
 const tripUtils = require('../utils/bookUtils.js');
@@ -19,23 +19,20 @@ exports.postCreateCrypto = async (req, res) => {
     console.log(req.user);
 
     try {
-        const { startPoint, endPoint, date, time, image, brand, seats, price, description, buddies } = req.body;
+        const { title, keyword, location, creation, image, description } = req.body;
 
-        let trip = new Trip({
-            startPoint,
-            endPoint,
-            date,
-            time,
+        let post = new Post({
+            title,
+            keyword,
+            location,
+            creation,
             image,
-            brand,
-            seats,
-            price,
             description,
-            buddies,
+           
             creator: req.user._id,
         });
-        console.log(trip);
-        await trip.save();//запазва в db
+        console.log(post);
+        await post.save();//запазва в db
 
         //или 
         //await cryptoService.create(req.user._id, { name, image, price, description, paymentMethod })
@@ -73,7 +70,7 @@ exports.getDetails = async (req, res) => {//router.get('/:cryptoId/details',(req
 
     const buddiesMeail = await tripServices.getBuddiesMail(req.params.tripId);
     // console.log(req.params.tripId)
-     console.log(buddiesMeail)
+    console.log(buddiesMeail)
 
     //console.log(buddiesMeail.buddies)
 
@@ -101,14 +98,14 @@ exports.getDetails = async (req, res) => {//router.get('/:cryptoId/details',(req
 
 exports.getEditCrypto = async (req, res) => {
 
-    const trip = await tripServices.getOne(req.params.tripId);
+    const post = await tripServices.getOne(req.params.tripId);
     //const paymentMethods = tripUtils.generatePaymentMethod(trip.paymentMethod);
 
-    if (!tripUtils.isOwner(req.user, trip)) {
+    if (!tripUtils.isOwner(req.user, post)) {
         return res.render('home/404')// throw new Error('You are not an owner!');
     }
 
-    res.render('book/edit', { trip });
+    res.render('book/edit', { post });
 };
 
 exports.postEditCrypto = async (req, res) => {
@@ -137,9 +134,9 @@ exports.postEditCrypto = async (req, res) => {
 };
 
 exports.getDeleteCrypto = async (req, res) => {
-    const trip = await tripServices.getOne(req.params.tripId);
+    const post = await tripServices.getOne(req.params.tripId);
 
-    const isOwner = tripUtils.isOwner(req.user, trip);
+    const isOwner = tripUtils.isOwner(req.user, post);
     console.log(isOwner)
 
     if (!isOwner) {
@@ -182,7 +179,7 @@ exports.getProfile = async (req, res) => {
     const mywished = await tripServices.getbBuddies(userId)
     const length = mywished.length;
 
-   
+
     console.log(userId)
     // console.log(wished)
     console.log(mywished)
