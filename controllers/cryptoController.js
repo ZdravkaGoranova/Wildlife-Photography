@@ -1,5 +1,6 @@
 
 const router = require('express').Router();
+const mongoose = require('mongoose');
 
 const Post = require('../models/Post.js');
 const User = require('../models/User.js');
@@ -28,7 +29,7 @@ exports.postCreateCrypto = async (req, res) => {
             creation,
             image,
             description,
-           
+
             creator: req.user._id,
         });
         console.log(post);
@@ -46,46 +47,59 @@ exports.postCreateCrypto = async (req, res) => {
 };
 
 exports.getDetails = async (req, res) => {//router.get('/:cryptoId/details',(req,res)=>{)
+    console.log(req.params.tripId)
 
-    const trip = await tripServices.getOne(req.params.tripId);
-    //console.log(trip)
-    //console.log(trip.creator.toString())
+    const postId = req.params.tripId;
+    const postObjectId = mongoose.Types.ObjectId(postId);
+    //console.log(postObjectId)
+
+    const post = await Post.findById(postObjectId).lean();
+    console.log(post)
+
+    const isOwner = tripUtils.isOwner(req.user, post);//const isOwner = crypto.owner==req.user._id;
+    console.log(isOwner)
+
+    const isVoted = post.votesPonPpost?.some(id => id == req.user?._id);
+    console.log(isVoted)
+
+    const nameFr = await tripUtils
 
 
-    const dDriver = await tripServices.getOwn(trip.creator.toString());
-    const driver = dDriver.email;
-    console.log(driver)
+
+    // const dDriver = await tripServices.getOwn(post.creator.toString());
+    // const driver = dDriver.email;
+    // console.log(driver)
 
 
-    const availableSeats = trip.seats;
+    //const availableSeats = post.seats;
     //console.log(availableSeats)
 
-    const isOwner = tripUtils.isOwner(req.user, trip);//const isOwner = crypto.owner==req.user._id;
-
-    //const isWished = trip.wishingList?.some(id => id == req.user?._id);
-
-    const isBuddies = trip.buddies?.some(id => id == req.user?._id);
-    //console.log(isBuddies)
-
-
-    const buddiesMeail = await tripServices.getBuddiesMail(req.params.tripId);
-    // console.log(req.params.tripId)
-    console.log(buddiesMeail)
-
-    //console.log(buddiesMeail.buddies)
-
-    const buddiesEmails = buddiesMeail.buddies.map(buddy => buddy.email);
-    //console.log(buddiesEmails);
+    
+    
+    // const isBuddies = post.buddies?.some(id => id == req.user?._id);
+    // //console.log(isBuddies)
 
 
 
 
-    const sharedBuddiesString = buddiesEmails.join(', ');
-    //console.log(sharedBuddiesString);
+    // const buddiesMeail = await tripServices.getBuddiesMail(req.params.tripId);
+    // // console.log(req.params.tripId)
+    // console.log(buddiesMeail)
+
+    // //console.log(buddiesMeail.buddies)
+
+    // const buddiesEmails = buddiesMeail.buddies.map(buddy => buddy.email);
+    // //console.log(buddiesEmails);
+
+
+
+
+    // const sharedBuddiesString = buddiesEmails.join(', ');
+    // //console.log(sharedBuddiesString);
 
     //crypto.paymentMethod = paymentMethodsMap[crypto.paymentMethod]
 
-    if (!trip) {
+    if (!post) {
         return res.render('home/404');
     }
 
@@ -93,7 +107,7 @@ exports.getDetails = async (req, res) => {//router.get('/:cryptoId/details',(req
     // console.log(`=========================================`)
     // console.log(crypto.owner.toString())
 
-    res.render('book/details', { trip, isOwner, isBuddies, driver, availableSeats, sharedBuddiesString });
+    res.render('book/details', { post, isOwner,isVoted });
 };
 
 exports.getEditCrypto = async (req, res) => {
@@ -110,34 +124,33 @@ exports.getEditCrypto = async (req, res) => {
 
 exports.postEditCrypto = async (req, res) => {
 
-    const { startPoint, endPoint, date, time, image, brand, seats, price, description, buddies } = req.body
+    const { title, keyword, location, creation, image, description } = req.body
 
     try {
         await tripServices.update(req.params.tripId, {
-            startPoint,
-            endPoint,
-            date,
-            time,
-            image,
-            brand,
-            seats,
-            price,
-            description,
-            buddies,
+            title, keyword, location, creation, image, description
         })
     } catch (error) {
         // console.log(error.message);
-        return res.status(400).render('sharedTrips/edit', { error: getErrorMessage(error) })
+        return res.status(400).render('book/edit', { error: getErrorMessage(error) })
 
     }
     res.redirect(`/sharedTrips/${req.params.tripId}/details`);
 };
 
 exports.getDeleteCrypto = async (req, res) => {
+    console.log(req.params.tripId)
     const post = await tripServices.getOne(req.params.tripId);
+    console.log(post)
+    // const postId = req.params.tripId;
+    // const postObjectId = mongoose.Types.ObjectId(postId);
+    // //console.log(postObjectId)
 
-    const isOwner = tripUtils.isOwner(req.user, post);
+    // const post = await Post.findById(postObjectId).lean();
+    const isOwner = tripUtils.isOwner(req.user, post);//const isOwner = crypto.owner==req.user._id;
     console.log(isOwner)
+
+
 
     if (!isOwner) {
         return res.render('home/404');
